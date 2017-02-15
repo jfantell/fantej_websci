@@ -13,7 +13,7 @@ Setup Remote Repo: https://github.com/jfantell/SingleStream/tree/gh-pages; repo 
 
 Setup local Repo: SingleStream (screenshot "SingleStream_local_repo" attached)
 
-Production server:
+Production server: jl
 
 Bug tracker software: GitHub Issues: https://github.com/jfantell/SingleStream/issues
 
