@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+
+<!-- Initialize the app with ng-app directive -->
+
+<html ng-app="myApp">
+
+<head>
+        <!-- these 3 meta tage are for Bootstrap -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Basic Angular demo - With Lecture</title>
+
+    <!-- Include Angular from CDN -->
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.1/angular.min.js"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0/angular.js"></script>
+ 
+    <!-- Bootstrap from CDN -->
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <!-- Optional theme -->
+    <!--         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous"> -->
+ 
+    <!-- Including extra style here for in-class use only -->
+    <style>
+        body {
+            background-color:lightgrey;
+            margin: 10%;
+        }
+        .main {
+            border-style: groove;
+            border-width: 2px;
+            width: 30%;
+        }
+        .panel {
+            margin: 1%;
+        }
+        </style>
+
+
+</head>
+
+<!-- Add our first controller (and only one for this demo) to our body tag -->
+<!-- Without the controller, our Angular expressions and directives will basically be ignored  -->
+
+<body ng-controller="mainController">
+
+<!-- Setup a panel for the button functionality -->
+    <div ng-show="view==0">
+        <h4>Welcome!</h4>
+    </div>
+
+<!-- When we click on a button, we set the view -->
+
+    <div class="panel">
+        <button type="button" ng-click="view=0">Home</button>
+        <button type="button" ng-click="view=1">Expressions</button>
+        <button type="button" ng-click="display=1">Show</button>
+        <button type="button" ng-hide="display==0" ng-click="display=0">Hide</button>
+        <button type="button" ng-click="view=2">Repeat</button>
+        <button type="button" ng-click="view=3">Image</button>
+        <button type="button" ng-click="view=4">Filtering</button>
+        <button type="button" ng-click="view=5">Functions</button>
+    </div>
+
+
+
+    <div ng-show="view==1">
+        <p>Expressions:</p>
+        <p><span ng-non-bindable>{{1 + 1}}  =>  </span><b>{{1 + 1}}</b></p>
+        <p><span ng-non-bindable>{{a + b}}  =>  </span><b>{{a + b}}</b><span>  where   a={{a}} and b={{b}}</span></p>
+        <p><span ng-non-bindable>{{items[1]}}  =>  </span><b>{{items[1]}}</b></p>
+        <p><span ng-non-bindable>{{items[1].cost}}  =>  </span><b>{{items[1].cost}}</b></p>
+    </div>
+
+    <div ng-show="view==2">
+        <ul>
+            <li ng-repeat="item in items" ng-show="text != 'text'">
+                <span>{{ item.name }} - {{item.cost | currency}}</span>
+            </li>
+        </ul>
+    </div>
+
+    <div ng-show="view==3">
+        <img ng-src={{imgSrc}}/>
+    </div>
+
+    <div ng-show="view==4">
+        <h5>Date/time now:</h5>
+        <span>{{ dateTime | date:'MM-dd-yy @ h:mma'}}</span>
+        <h5>Ordered by decreasing cost:</h5>
+        <ul>
+            <li ng-repeat="item in items | limitTo:5 | orderBy: '-cost'" ng-show="text != 'text'">
+                <span>{{ item.name }} - {{item.cost | currency}}</span>
+            </li>
+        </ul>
+    </div>
+
+    <div ng-show="view==5">
+        <h5>Type text and click add</h5>
+        <form ng-submit="addText()">
+            <input type="text" ng-model="text">
+            <input type="submit" value="Add">
+            <button type="button" ng-click="texts = []">Clear</button>
+        </form>
+        <ul>
+            <li ng-repeat="text in texts track by $index" ng-show="text != 'text'">
+                <span>{{ text }}</span>
+            </li>
+        </ul>
+    </div>
+
+</body>
+
+<!-- Bootstrap and Angular depend on jQuery, so lets add it here -->
+<script src="https://code.jquery.com/jquery-1.12.0.js"></script>
+
+<!-- Latest compiled and minified Bootstrap JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+<script>
+
+// Instantiate the myApp Angular application that we attached to out html tag
+    var app = angular.module("myApp", []);
+
+// Here is the Javascript for our controller which we linked (scoped) to the body tag
+    app.controller("mainController", ['$scope','$http',function($scope, $http) {
+
+// Lets setup some variables for our expressions
+        $scope.view = 0;    // literal
+        $scope.show = 0;
+        $scope.texts = [];   // array (will be used to hold strings)
+        $scope.a = 1;
+        $scope.b = 2;
+        $scope.item = {"name": "item", "cost": 5};  // JSON object of Key:Value pairs
+
+        $scope.items = [];      // another array
+                                          // lets put some data into our array
+        for (var i=0; i<10; i++) {
+            var item = "item" + String(i);
+            $scope.items.push({"name": item, "cost": 10*i});
+        }
+
+// Lets go get an image from the Internet
+        $scope.imgSrc = "http://news.rpi.edu/sites/default/files/styles/large/public/ShirleyAnnJackson_2014_Jackson_News%20from%20Diane.jpg?itok=JU57nNLm";
+
+// Lets get the current Date & Time (simple JavaScript)
+        $scope.dateTime = new Date();
+
+// Define the Add text function to add text items onto the text array
+        $scope.addText = function() {
+            $scope.texts.push($scope.text);
+
+        };
+    }]);
+</script>
+</html>

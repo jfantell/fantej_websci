@@ -1,0 +1,105 @@
+<html>
+<head>
+	 <meta charset="UTF-8"> 
+	 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	 <style>
+		  body{
+		    background: #333;
+		    color: #ddd;
+		  }
+
+		  .result {
+		  	border-radius: 5px;
+		  	background: rgb(102, 204, 255);
+		  	box-shadow: 10px 10px 5px #888888;
+		    overflow:hidden;
+		    display:block;
+		    border:1px solid black;
+		  }
+
+		  .result img {
+		  	height: 100px;
+    		width: 100px;
+    		margin-top:-120px;
+		  }
+
+		  .result li {
+		  	list-style: none;
+		  	color: white;
+		  	text-align: right;
+		  	padding-right: 20px;
+		  }
+
+		  p{
+		  	font-style: bolder;
+		  	font-size: 13pt;
+		  	text-shadow: none;
+		  }
+
+		  h2 {
+		  	color: white;
+		  	background: rgba(0, 0, 0, 0.1);
+		    text-align: right;
+		    font-size: 14pt;
+		    text-shadow: 2px 2px #ff0000;
+		    padding-right: 10px;
+		  }
+		  
+		  #theCarousel img {
+		    height: 50px;
+    		width: 50px;
+    		clear: left;
+    		float: left;
+    		position: absolute;
+    		left: 40px;
+    		top: 30px;
+		  }
+
+		  .carousel-caption{
+		      top: 0;
+		      margin:0 auto;
+		      text-align:center;
+		  }
+
+		  .container{
+		    margin: 0 auto;
+		    margin-top: 10px;
+		  }
+
+		  /*Light blue panels for tweet text carousel*/
+		  div.tweetText {
+		      border-radius: 5px;
+		      margin: 10px;
+		      width:100%;
+		      height:240px;
+		      min-width:80px;
+		      min-height:150px;
+		      background: rgb(102, 204, 255);
+		      box-shadow: 10px 10px 5px #888888;
+		      overflow:hidden;
+		      display:block;
+		      border:1px solid black;
+		  }
+
+		  .col-lg-3 {
+		  	padding-left: 0px;
+		  }
+
+	 </style>
+</head>
+<body>
+	<div class="container">
+		<div class="jumbotron">
+			<p class="result"></p>
+		</div>
+		<div class="jumbotron">
+			<div class="carousel slide multi-item-carousel" id="theCarousel">
+            </div>
+		</div>
+	</div>
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/locale/af.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="lab2.js"></script>
+</html>
