@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+
+<!-- Initialize the app with ng-app directive -->
+
+<html ng-app="myApp">
+
+<head>
+    <!--Bootstrap meta tags-->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Lab 4 - John Fantell</title>
+
+    <!-- Include Angular from CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0/angular.js"></script>
+ 
+    <!-- Bootstrap from CDN -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="lab4.css">
+
+</head>
+
+<!-- Add our first controller (and only one for this demo) to our body tag -->
+<!-- Without the controller, our Angular expressions and directives will basically be ignored  -->
+
+<body ng-controller="mainController">
+
+<!-- When we click on a button, we set the view -->
+    <div class="container">
+      <div class="panel">
+        <button type="button" ng-click="view=1">Weather</button>
+        <button type="button" ng-click="view=2">Random</button>
+      </div>
+
+
+      <!--Weather interface-->
+      <div ng-show="view==1">
+        <ul style="list-style: none;">
+            <li ng-repeat="x in myData">
+              <div class="row">
+                  <div class="col-md-2">
+                      <mydate>{{x.dt * 1000 | date:'MM-dd'}}</mydate>
+                  </div>
+                  <div class="col-md-2">
+                      {{ 'Description: ' + x.weather[0].description }}
+                  </div>
+                  <div class="col-md-2">
+                      {{ 'Max Temp: ' + x.temp.max }}
+                  </div>
+                  <div class="col-md-2">
+                      {{ 'Max Temp: ' + x.temp.min }}
+                  </div>
+                  <div class="col-md-4">
+                      <img ng-src="http://openweathermap.org/img/w/{{x.weather[0].icon}}.png" alt="Weather Icon" style="width:50px;height:50px;" />
+                  </div>
+              </div>
+            </li>
+        </ul>
+      </div>
+
+      <!--Picture interface-->
+      <div ng-show="view==2">
+          <h1 style="text-align:center;">Found this on Reddit!</h1>
+          <img ng-src={{imgSrc}}>
+      </div>
+    </div>
+</body>
+
+<!-- Bootstrap and Angular depend on jQuery, so lets add it here -->
+<script src="https://code.jquery.com/jquery-1.12.0.js"></script>
+
+<!-- Latest compiled and minified Bootstrap JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+<script>
+
+// Instantiate the myApp Angular application that we attached to out html tag
+    var app = angular.module("myApp", []);
+
+// Here is the Javascript for our controller which we linked (scoped) to the body tag
+    app.controller("mainController", ['$scope','$http',function($scope, $http) {
+
+
+        // Lets go get an image from the Internet
+        $scope.imgSrc = "img/plotka.png";
+
+        var latitude = 42.7284;
+        var longitude = 73.6918;
+        $http.get("http://api.openweathermap.org/data/2.5/forecast/daily?lat=" + latitude + "&lon=" + longitude + "&units=Imperial&cnt=10&APPID=ad9da40570b660bc0f312e97324278b4").then(function(response) {
+          $scope.myData = response.data.list;
+        });
+
+
+        // Define the Add text function to add text items onto the text array
+        $scope.addText = function() {
+            $scope.texts.push($scope.text);
+        };
+    }]);
+</script>
+</html>

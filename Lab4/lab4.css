@@ -1,0 +1,66 @@
+
+body {
+    background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%, rgba(0,0,255,1)), color-stop(100%, rgba(0,0,0,1))); /* safari4+,chrome */
+    background:-webkit-radial-gradient(center, ellipse cover, rgba(0,0,255,1) 0%, rgba(0,0,0,1) 100%); /* safari5.1+,chrome10+ */
+    background: -o-radial-gradient(center, ellipse cover, rgba(0,0,255,1) 0%, rgba(0,0,0,1) 100%); /* opera 11.10+ */
+    background: -ms-radial-gradient(center, ellipse cover, rgba(0,0,255,1) 0%, rgba(0,0,0,1) 100%); /* ie10+ */
+    background:radial-gradient(ellipse at center, rgba(0,0,255,1) 0%, rgba(0,0,0,1) 100%); /* w3c */
+    margin: 10%;
+    margin: 0 auto;
+}
+.container {
+    border: black 2px solid;
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+img {
+    width: 100%;
+}
+.panel {
+    margin: 1%;
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+ul {
+    padding-left: 0px;
+    padding-right: 15px;
+}
+
+.row {
+    margin-left: 0px;
+    border: black solid 2px;
+}
+
+@media all and (max-width: 500px) {
+    body {
+        background: red;
+    }
+}
+
+/* x-Small Devices */
+@media(max-width:500px){
+    .row {
+        border: gray solid 2px;
+    }
+}
+
+/* Small Devices */
+@media(min-width:501) and (max-width:1000){
+    .row {
+        border: red solid 2px;
+    }
+}
+
+/* Medium Devices*/
+@media(min-width:1001) and (max-width:1199){
+    .row {
+        border: blue solid 2px;
+    }
+}
+
+/* Large Devices*/
+@media(min-width:1200px){
+    .row {
+        border: black solid 2px;
+    }
+}

@@ -13,7 +13,7 @@ Setup Remote Repo: https://github.com/jfantell/SingleStream/tree/gh-pages; repo 
 
 Setup local Repo: SingleStream (screenshot "SingleStream_local_repo" attached)
 
-Production server: ryanf.sgedu.site
+Production server: ryanf.sgedu.site (FTP accounts created for Corey and Professor Plotka as well - see Ryan Flynn's readme for details)
 
 Bug tracker software: GitHub Issues: https://github.com/jfantell/SingleStream/issues
 
