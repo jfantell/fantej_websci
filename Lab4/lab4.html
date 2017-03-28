@@ -34,35 +34,9 @@
       </div>
 
 
-      <!--Weather interface-->
-      <div ng-show="view==1">
-        <ul style="list-style: none;">
-            <li ng-repeat="x in myData">
-              <div class="row">
-                  <div class="col-md-2">
-                      <mydate>{{x.dt * 1000 | date:'MM-dd'}}</mydate>
-                  </div>
-                  <div class="col-md-2">
-                      {{ 'Description: ' + x.weather[0].description }}
-                  </div>
-                  <div class="col-md-2">
-                      {{ 'Max Temp: ' + x.temp.max }}
-                  </div>
-                  <div class="col-md-2">
-                      {{ 'Max Temp: ' + x.temp.min }}
-                  </div>
-                  <div class="col-md-4">
-                      <img ng-src="http://openweathermap.org/img/w/{{x.weather[0].icon}}.png" alt="Weather Icon" style="width:50px;height:50px;" />
-                  </div>
-              </div>
-            </li>
-        </ul>
-      </div>
-
       <!--Picture interface-->
-      <div ng-show="view==2">
+      <div ng-show="view==1">
           <h1 style="text-align:center;">Found this on Reddit!</h1>
-          <img ng-src={{imgSrc}}>
       </div>
     </div>
 </body>

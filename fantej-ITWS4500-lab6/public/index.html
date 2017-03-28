@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html ng-app="lab5_twitter">
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <title>Lab 5</title>
+    <style>
+    	body {
+    		margin-top: 30px;
+    		background: #F0F8FF;
+    	}
+    	.suBmit {
+    		margin-top: 10px;
+    	}
+    	.form-group{
+    		margin-right: 10px;
+    		margin-top: 5px;
+    	}
+    </style>
+</head>
+
+<body>
+	<div ng-controller="mainController">
+	    <div class="container">
+	    	<div class="row">
+	    		<div class="col-md-4">
+	    			<div class="well">
+	    				<h3>Tweets</h3>
+	    				<h5>Filter tweets by <mark>Topic</mark> or <mark>Location</mark></h5>
+	    				<button type="button" class="btn btn-primary" ng-click="view=1">Location</button>
+        				<button type="button" class="btn btn-primary" ng-click="view=2">Topic</button>
+	    			</div>
+	    		</div>
+	    		<div class="col-md-8">
+	    			<div class="well">
+		    			<form id="tweetForm">
+		    				<div ng-show="view==1">
+			    				<div class="form-group">
+			    					Count: <input class="form control" id="tweetCount" placeholder="5" ng-model="tweetCount">
+			    				</div>
+			    				<div class="form-inline">
+				    				<div class="form-group">
+				    					Southwest Corner: <input class="form control" id="southwest" placeholder="-73.68,42.72" ng-model="southwest">
+				    				</div>
+				    				<div class="form-group">
+				    					Northeast Corner: <input class="form control" id="northeast" placeholder="-73.67,42.73" ng-model="northeast">
+				    				</div>
+				    			</div>
+			    				<input type="submit" class="get_tweets suBmit btn btn-primary" value="Get Tweets" ng-click="submit_location()">
+			    				<div class="form-group">
+			    					<select ng-model="selectedName" ng-init="selectedName = names[0]" ng-options="item for item in names"></select>
+			    					<input type="submit" class="export_tweets suBmit btn btn-primary" value="Export" ng-click="export()">
+			    					<input type="submit" class="suBmit btn btn-primary" value="New" ng-click="new()">
+			    				</div>
+			    			</div>
+
+			    			<div ng-show="view==2">
+			    				<div class="form-group">
+			    					Count: <input class="form control" id="tweetCount" placeholder="5" ng-model="tweetCount">
+			    				</div>
+			    				<div class="form-group">
+			    					Count: <input class="form control" id="topic" placeholder="Information Technology" ng-model="topic">
+			    				</div>
+			    				<input type="submit" class="get_tweets suBmit btn btn-primary" value="Get Tweets" ng-click="submit_topic()">
+			    				<div class="form-group">
+			    					<select ng-model="selectedName" ng-init="selectedName = names[0]" ng-options="item for item in names"></select>
+			    					<input type="submit" class="export_tweets suBmit btn btn-primary" value="Export" ng-click="export()">
+									<input type="submit" class="suBmit btn btn-primary" value="New" ng-click="new()">
+			    				</div>
+			    			</div>
+
+		    			</form>
+		    			<br>
+		    		</div>
+	    			<div class="stream" id="stream"></div>
+	    		</div>
+	    	</div>
+	   	</div>
+	</div>
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+<script>
+	var app = angular.module("lab5_twitter", []);
+	app.controller("mainController", ['$scope','$http',function($scope, $http) {
+		
+		var socket = io.connect();
+		$('.export_tweets').prop('disabled', true);
+		$scope.tweetCount = "";
+    	$scope.southwest = "";
+    	$scope.northeast = "";
+    	$scope.topic = "";
+    	$scope.submit_location = function () {
+    		console.log("Submitted");
+    		$('.export_tweets').prop('disabled', true);
+    		$('.get_tweets').prop('disabled', true);
+    		socket.emit('get tweets', [$scope.tweetCount, $scope.southwest, $scope.northeast]);
+    	};
+    	$scope.submit_topic = function () {
+    		console.log("Submitted");
+    		$('.export_tweets').prop('disabled', true);
+    		$('.get_tweets').prop('disabled', true);
+    		socket.emit('get tweets', [$scope.tweetCount, $scope.topic, "topic"]);
+    	};
+    	$scope.new = function () {
+    		location.reload(true);
+    	};
+    	$scope.names = ["JSON", "CSV"];
+    	$scope.export = function () {
+    		console.log("Exporting");
+    		console.log($scope.selectedName);
+    		var req = {
+			 	method: 'POST',
+			 	url: '/export',
+			 	data: {format: $scope.selectedName}
+			}
+			$http(req).success(function(data){
+				alert(data);
+			});
+    	};
+
+    	socket.on('new tweet', function(data){
+    		if(data.msg == "Done"){
+    		$('.export_tweets').prop('disabled', false);
+    		$('.get_tweets').prop('disabled', false);
+    			return;
+    		}
+			$('#stream').append('<div class="well">'+data.msg+'</div>');
+		});
+	}]);
+
+</script>
+</html>
+
